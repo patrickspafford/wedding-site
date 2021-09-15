@@ -5,9 +5,12 @@ import { ApiContext } from "../contexts"
 import LoadingIndicator from "../components/LoadingIndicator"
 import Authenticated from "../components/Authenticated"
 
+type PageToken = string | undefined
+
 interface IPagination {
-  pageTokens: string[]
-  currIdx: undefined | number | null
+  pageTokens: PageToken[]
+  currIdx: number
+  isNextPage: boolean
 }
 
 const Photos = () => {
@@ -16,28 +19,33 @@ const Photos = () => {
   const [loading, setLoading] = useState(true)
   const [shouldLoadPhotos, setShouldLoadPhotos] = useState(true)
   const [pagination, setPagination] = useState<IPagination>({
-    pageTokens: [],
-    currIdx: null,
-    isNextPage: false,
+    pageTokens: [undefined],
+    currIdx: 0,
+    isNextPage: true,
   })
 
-  const loadPhotos = async (first: boolean) => {
+  const loadPhotos = async () => {
     try {
       setLoading(true)
       const urls: string[] = []
-      const config = first
-        ? {
-            maxResults: 3,
-          }
-        : {
-            maxResults: 3,
-            pageToken:
-              pagination.pageTokens.length !== 0
-                ? pagination.pageTokens[pagination.currIdx ?? 0]
-                : undefined,
-          }
+      const config =
+        pagination.currIdx === null
+          ? {
+              maxResults: 6,
+            }
+          : {
+              maxResults: 6,
+              pageToken:
+                pagination.pageTokens.length !== 0
+                  ? pagination.pageTokens[pagination.currIdx ?? 0]
+                  : undefined,
+            }
       const allPhotos = await apiService.sharedPhotosRef().list({ ...config })
-      if (allPhotos.nextPageToken) {
+      if (
+        allPhotos.nextPageToken &&
+        pagination.isNextPage &&
+        !pagination.pageTokens.includes(allPhotos.nextPageToken)
+      ) {
         setPagination({
           ...pagination,
           pageTokens: [...pagination.pageTokens, allPhotos.nextPageToken],
@@ -53,6 +61,10 @@ const Photos = () => {
     } finally {
       setLoading(false)
       setShouldLoadPhotos(false)
+      setPagination({
+        ...pagination,
+        isNextPage: false,
+      })
     }
   }
 
@@ -63,6 +75,11 @@ const Photos = () => {
       for await (const file of files) {
         await apiService.uploadSharedPhoto(file)
       }
+      setPagination({
+        pageTokens: [undefined],
+        currIdx: 0,
+        isNextPage: true,
+      })
       setShouldLoadPhotos(true)
     } catch (err) {
       setLoading(false)
@@ -72,37 +89,34 @@ const Photos = () => {
 
   useEffect(() => {
     if (shouldLoadPhotos) {
-      loadPhotos(pagination.pageTokens.length === 0)
+      loadPhotos()
     }
-  }, [shouldLoadPhotos, pagination.pageTokens, pagination.currIdx])
+  }, [
+    shouldLoadPhotos,
+    pagination.pageTokens,
+    pagination.currIdx,
+    pagination.isNextPage,
+  ])
 
   const handleNextPage = () => {
-    set
+    setPagination({
+      ...pagination,
+      currIdx: (pagination.currIdx + 1) % pagination.pageTokens.length,
+      isNextPage: true,
+    })
+    setShouldLoadPhotos(true)
   }
 
-  const handlePrevPage = () => {}
+  const handlePrevPage = () => {
+    setPagination({
+      ...pagination,
+      currIdx: pagination.currIdx - 1,
+    })
+    setShouldLoadPhotos(true)
+  }
 
   return (
     <Authenticated>
-      <div className="flex justify-center p-8">
-        <form>
-          <input
-            id="file-submit"
-            type="file"
-            required
-            multiple
-            onChange={handleSetImage}
-            accept="image/jpeg, image/png, image/jpg, image/heic"
-            hidden
-          />
-          <label
-            htmlFor="file-submit"
-            className="text-charcoal bg-white p-4 rounded-md hover:opacity-50 cursor-pointer"
-          >
-            Upload A Photo
-          </label>
-        </form>
-      </div>
       <div className="bg-white p-4 flex items-center justify-center flex-wrap">
         {loading ? (
           <LoadingIndicator />
@@ -127,10 +141,33 @@ const Photos = () => {
       <div className="flex justify-between items-center p-8">
         <button
           onClick={handlePrevPage}
-          className="text-charcoal bg-white pl-8 pr-8 p-4 rounded-md hover:opacity-50"
+          disabled={
+            pagination.pageTokens.length <= 2 || pagination.currIdx === 0
+          }
+          className={`text-charcoal bg-white pl-8 pr-8 p-4 rounded-md hover:opacity-50 ${
+            (pagination.pageTokens.length <= 2 || pagination.currIdx === 0) &&
+            "opacity-50"
+          }`}
         >
           {`<<`} Prev
         </button>
+        <form>
+          <input
+            id="file-submit"
+            type="file"
+            required
+            multiple
+            onChange={handleSetImage}
+            accept="image/jpeg, image/png, image/jpg, image/heic"
+            hidden
+          />
+          <label
+            htmlFor="file-submit"
+            className="text-charcoal bg-white p-4 rounded-md hover:opacity-50 cursor-pointer"
+          >
+            Upload Photos
+          </label>
+        </form>
         <button
           onClick={handleNextPage}
           className="text-charcoal bg-white pl-8 pr-8 p-4 rounded-md hover:opacity-50"
