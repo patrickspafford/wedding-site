@@ -31,10 +31,10 @@ const Photos = () => {
       const config =
         pagination.currIdx === null
           ? {
-              maxResults: 6,
+              maxResults: 9,
             }
           : {
-              maxResults: 6,
+              maxResults: 9,
               pageToken:
                 pagination.pageTokens.length !== 0
                   ? pagination.pageTokens[pagination.currIdx ?? 0]
