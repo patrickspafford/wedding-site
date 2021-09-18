@@ -26,6 +26,7 @@
     "react-native-uuid": "^2.0.1",
     "react-spinners": "^0.11.0",
     "recoil": "^0.4.1",
+    "rooks": "^5.7.1",
     "sharp": "^0.29.1"
   },
   "devDependencies": {

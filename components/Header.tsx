@@ -47,7 +47,9 @@ const Header = ({ navItems, toggleMenu, handleLogOut, loggedIn }: IHeader) => (
               />
             </a>
           </Link>
-          <span className="font-paris text-3xl">Alexandria &amp; Patrick</span>
+          <span className="font-paris lg:text-3xl text-2xl">
+            Alexandria &amp; Patrick
+          </span>
         </div>
         <DesktopHeader
           navItems={navItems}

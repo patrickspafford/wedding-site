@@ -18,7 +18,9 @@ const InfoItem = ({
   onChange,
 }: IInfoItem) => (
   <div className={`flex items-center justify-between ${itemStyle} mb-8`}>
-    <span className={`font-semibold text-lg ${spanStyle ?? ""}`}>{left}</span>
+    <span className={`font-bold md:text-lg text-base ${spanStyle ?? ""}`}>
+      {left}
+    </span>
     {editable ? (
       <input
         type="text"
@@ -28,7 +30,7 @@ const InfoItem = ({
         onChange={onChange}
       />
     ) : (
-      <span className={`font-semibold text-lg ${spanStyle ?? ""}`}>
+      <span className={`font-semibold md:text-lg text-base ${spanStyle ?? ""}`}>
         {right}
       </span>
     )}

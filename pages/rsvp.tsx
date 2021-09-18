@@ -4,12 +4,14 @@ import { ApiContext } from "../contexts"
 import Switch from "rc-switch"
 import "rc-switch/assets/index.css"
 import useFirestoreListener from "react-firestore-listener"
+import { useWindowSize } from "rooks"
 
 const RSVP = () => {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [loading, setLoading] = useState(false)
   const { apiService } = useContext(ApiContext)
+  const { innerWidth } = useWindowSize()
 
   const currentUserDoc = useFirestoreListener({
     collection: "users",
@@ -55,7 +57,7 @@ const RSVP = () => {
             className="w-full bg-white max-w-2xl p-8 mt-8 rounded-md shadow-md"
           >
             <h1 className="text-4xl text-center mb-8 font-paris">RSVP</h1>
-            <h2 className="text-3xl text-center font-paris mb-16">
+            <h2 className="md:text-3xl text-2xl text-center font-paris mb-16">
               Will You Be Attending?
             </h2>
             <div className="flex justify-center items-center">
@@ -81,16 +83,22 @@ const RSVP = () => {
                 </label>
               </div>
             </div>
-            <h2 className="text-3xl text-center font-paris mt-16 mb-16">
+            <h2 className="md:text-3xl text-2xl text-center font-paris mt-16 mb-16">
               Please Add Your Guests
             </h2>
             <div className="flex justify-between mb-12 items-center">
-              <label className="flex-1 font-semibold" htmlFor="First Name">
+              <label
+                className="flex-1 font-semibold hidden md:block"
+                htmlFor="First Name"
+              >
                 First Name
               </label>
               <input
                 type="text"
                 name="First Name"
+                placeholder={
+                  innerWidth && innerWidth <= 768 ? "First Name" : ""
+                }
                 value={firstName}
                 required
                 onChange={(e) => setFirstName(e.target.value)}
@@ -98,13 +106,17 @@ const RSVP = () => {
               />
             </div>
             <div className="flex justify-between mb-12 items-center">
-              <label htmlFor="Last Name" className="flex-1 font-semibold">
+              <label
+                htmlFor="Last Name"
+                className="flex-1 font-semibold md:block hidden"
+              >
                 Last Name
               </label>
               <input
                 type="text"
                 className="border-2 flex-1 rounded-md h-12 pl-4 focus:ring focus:outline-none"
                 name="Last Name"
+                placeholder={innerWidth && innerWidth <= 768 ? "Last Name" : ""}
                 required
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}

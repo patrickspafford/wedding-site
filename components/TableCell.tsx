@@ -27,7 +27,7 @@ const TableCell = ({
             alt="Profile"
             height={96}
             width={96}
-            objectFit="contain"
+            objectFit="cover"
           />
         ) : (
           <FaUser className="text-4xl m-auto pt-2 align-middle" />

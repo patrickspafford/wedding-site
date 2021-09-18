@@ -138,13 +138,13 @@ const Photos = () => {
           ))
         )}
       </div>
-      <div className="flex justify-between items-center p-8">
+      <div className="flex justify-between items-center flex-wrap p-4 md:p-8">
         <button
           onClick={handlePrevPage}
           disabled={
             pagination.pageTokens.length <= 2 || pagination.currIdx === 0
           }
-          className={`text-charcoal bg-white pl-8 pr-8 p-4 rounded-md hover:opacity-50 ${
+          className={`text-charcoal bg-white md:pl-8 md:pr-8 p-4 rounded-md hover:opacity-50 ${
             (pagination.pageTokens.length <= 2 || pagination.currIdx === 0) &&
             "opacity-50"
           }`}
@@ -170,7 +170,7 @@ const Photos = () => {
         </form>
         <button
           onClick={handleNextPage}
-          className="text-charcoal bg-white pl-8 pr-8 p-4 rounded-md hover:opacity-50"
+          className="text-charcoal bg-white md:pl-8 md:pr-8 p-4 rounded-md hover:opacity-50"
         >
           Next {`>>`}
         </button>
