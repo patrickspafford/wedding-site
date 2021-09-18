@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google-cloud/storage": "^5.14.2",
     "@plaiceholder/next": "^2.1.0",
     "firebase": "^8.10.0",
     "firebaseui": "^5.0.0",

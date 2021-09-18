@@ -4,6 +4,7 @@ import { ApiContext } from "../contexts"
 import Layout from "./Layout"
 import Link from "next/link"
 import LoadingIndicator from "./LoadingIndicator"
+import useFirestoreListener from "react-firestore-listener"
 
 const timer = require("react-native-timer")
 
@@ -18,13 +19,26 @@ const Authenticated = ({ children }: IAuthenticated) => {
 
   const [loading, setLoading] = useState(true)
   const [timedOut, setTimedOut] = useState(false)
+  const userDocs = useFirestoreListener({
+    collection: "users",
+    refresh: [
+      apiService.auth.currentUser,
+      apiService.auth.currentUser?.uid,
+      apiService.auth.currentUser?.displayName,
+    ],
+    options: {
+      conditions: [["uid", "==", apiService.auth.currentUser?.uid || ""]],
+    },
+  })
+
+  const userDoc = userDocs[0]
 
   useEffect(() => {
-    if (apiService.auth.currentUser) {
+    if (apiService.auth.currentUser && userDoc?.firstName) {
       setLoading(false)
       setTimedOut(false)
     }
-  }, [apiService.auth.currentUser])
+  }, [apiService.auth.currentUser, userDoc])
 
   useEffect(() => {
     if (loading) {

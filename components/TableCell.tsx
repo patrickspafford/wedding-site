@@ -22,7 +22,13 @@ const TableCell = ({
     <div className="flex items-center justify-between">
       <div className="h-24 w-24 overflow-hidden flex-shrink-0 rounded-l-md flex items-center">
         {imageSrc ? (
-          <Image src={imageSrc} alt="Profile" height={96} width={96} />
+          <Image
+            src={imageSrc}
+            alt="Profile"
+            height={96}
+            width={96}
+            objectFit="contain"
+          />
         ) : (
           <FaUser className="text-4xl m-auto pt-2 align-middle" />
         )}

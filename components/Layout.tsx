@@ -10,7 +10,6 @@ import { useRouter } from "next/router"
 
 interface ILayout {
   children: ReactNode
-  enforceLogin?: boolean
 }
 
 const navItems = [
@@ -36,7 +35,7 @@ const navItems = [
   },
 ]
 
-const Layout = ({ children, enforceLogin = false }: ILayout) => {
+const Layout = ({ children }: ILayout) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const router = useRouter()
@@ -88,12 +87,17 @@ const Layout = ({ children, enforceLogin = false }: ILayout) => {
           </li>
         ))}
         {loggedIn ? (
-          <li
-            onClick={handleLogOut}
-            className="text-white p-3 text-2xl hover:opacity-50"
-          >
-            Log Out
-          </li>
+          <>
+            <li className="text-white p-3 text-2xl hover:opacity-50 list-none">
+              <Link href="/profile">Profile</Link>
+            </li>
+            <li
+              onClick={handleLogOut}
+              className="text-white p-3 text-2xl hover:opacity-50 list-none"
+            >
+              Log Out
+            </li>
+          </>
         ) : (
           <li className="text-white p-3 text-2xl hover:opacity-50">
             <Link href="/login">Log In</Link>
