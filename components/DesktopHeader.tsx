@@ -28,12 +28,17 @@ const DesktopHeader = ({
         )
       })}
       {loggedIn ? (
-        <li
-          onClick={handleLogOut}
-          className="hover:opacity-50 h-24 flex items-center"
-        >
-          Log Out
-        </li>
+        <>
+          <li className="hover:opacity-50 h-24 flex items-center">
+            <Link href="/profile">Profile</Link>
+          </li>
+          <li
+            onClick={handleLogOut}
+            className="hover:opacity-50 h-24 flex items-center"
+          >
+            Log Out
+          </li>
+        </>
       ) : (
         <li className="hover:opacity-50 h-24 flex items-center">
           <Link href="/login">Log In</Link>
