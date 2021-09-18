@@ -86,7 +86,7 @@ const Profile = () => {
                 height={250}
                 width={250}
                 placeholder="blur"
-                objectFit="cover"
+                objectFit="contain"
                 alt="Profile"
                 src={imageUrl || "https://picsum.photos/seed/picsum/250/250"}
                 blurDataURL={

@@ -26,6 +26,9 @@ module.exports = {
         forest: '#3A4F41',
         moss: '#9D9C62',
       },
+      minHeight: {
+        '80': '20rem'
+      },
       fontFamily: {
         'paris': ['Paris']
       }

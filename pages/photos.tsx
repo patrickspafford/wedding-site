@@ -117,7 +117,7 @@ const Photos = () => {
 
   return (
     <Authenticated>
-      <div className="bg-white p-4 flex items-center justify-center flex-wrap">
+      <div className="bg-white p-4 flex items-center justify-center flex-wrap min-h-80">
         {loading ? (
           <LoadingIndicator />
         ) : (
