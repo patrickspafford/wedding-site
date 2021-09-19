@@ -4,7 +4,7 @@ import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth"
 import Layout from "../components/Layout"
 
 const config = {
-  apiKey: process.env.apiKey,
+  apiKey: process.env.API_KEY,
   authDomain: "weddingapp-94d85.firebaseapp.com",
   databaseURL: "https://weddingapp-94d85.firebaseio.com",
   projectId: "weddingapp-94d85",
