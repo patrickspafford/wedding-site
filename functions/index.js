@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 const fetch = require('node-fetch');
 
 const serviceAccount =
-  require('./weddingapp-94d85-firebase-adminsdk-8qx1a-a226242d62.json');
+  require('./secrets.json');
 
 const wait = (duration) => new Promise((resolve) => {
   setTimeout(() => resolve(), duration);
@@ -43,6 +43,17 @@ exports.createUserInFirestore = functions.auth.user().onCreate(async (user) => {
         console.log('File written successfully');
       } else console.log(err);
     });
+    if (firstName && lastName) {
+      const guestWithSameName = await admin.firestore()
+          .collection('guests')
+          .where('firstName', '==', firstName)
+          .where('lastName', '==', lastName)
+          .get();
+      if (!guestWithSameName.empty) {
+        const guestDoc = guestWithSameName.docs[0];
+        guestDoc.ref.delete();
+      }
+    }
   } catch (err) {
     console.error(err);
   }
