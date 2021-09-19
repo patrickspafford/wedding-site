@@ -5,4 +5,7 @@ module.exports = withPlaiceholder({
   images: {
     domains: ['firebasestorage.googleapis.com', 'picsum.photos']
   },
+  env: {
+    apiKey: 'AIzaSyATsifSy14qmKKc79gsx0tQnkTbUEM5aDY'
+  }
 })

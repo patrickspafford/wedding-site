@@ -7,7 +7,7 @@ import { noSpaces } from "../utils/regex"
 
 function initFirebase() {
   const config = {
-    apiKey: process.env.API_KEY,
+    apiKey: process.env.apiKey,
     authDomain: "weddingapp-94d85.firebaseapp.com",
     databaseURL: "https://weddingapp-94d85.firebaseio.com",
     projectId: "weddingapp-94d85",
