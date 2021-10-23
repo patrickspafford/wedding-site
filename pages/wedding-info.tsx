@@ -34,7 +34,7 @@ const WeddingInfo = () => (
         <H2>When</H2>
         <InfoSection>
           <InfoItem left="Date" right="December 18th, 2021" />
-          <InfoItem left="Time" right="6:00 pm" />
+          <InfoItem left="Time" right="6:30 pm" />
         </InfoSection>
         <H2>Where</H2>
         <InfoSection>
